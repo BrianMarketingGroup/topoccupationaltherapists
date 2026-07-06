@@ -17,11 +17,11 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0">
-            <Logo className="text-base md:text-lg lg:text-xl" />
+            <Logo className="text-[11px] sm:text-sm md:text-lg xl:text-xl" />
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-4 lg:gap-7 flex-shrink min-w-0" aria-label="Main navigation">
+          <nav className="hidden xl:flex items-center gap-4 lg:gap-7 flex-shrink min-w-0" aria-label="Main navigation">
             {siteConfig.nav.map((link) => (
               <Link
                 key={link.href}
@@ -34,10 +34,10 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4 flex-shrink-0">
+          <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
             <a
               href={siteConfig.phoneHref}
-              className="hidden lg:inline-flex items-center gap-2 text-sm font-medium text-pearl/80 hover:text-teal-light transition-colors whitespace-nowrap"
+              className="inline-flex items-center gap-2 text-sm font-medium text-pearl/80 hover:text-teal-light transition-colors whitespace-nowrap"
             >
               <Phone className="h-4 w-4" />
               {siteConfig.phone}
@@ -49,7 +49,7 @@ export default function Header() {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden text-pearl hover:text-teal-light transition-colors"
+            className="xl:hidden text-pearl hover:text-teal-light transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle navigation"
             aria-expanded={mobileOpen}
@@ -65,7 +65,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/10 bg-navy-dark backdrop-blur-xl">
+        <div className="xl:hidden border-t border-white/10 bg-navy-dark backdrop-blur-xl">
           <Container>
             <nav className="py-4 flex flex-col gap-3" aria-label="Mobile navigation">
               {siteConfig.nav.map((link) => (
