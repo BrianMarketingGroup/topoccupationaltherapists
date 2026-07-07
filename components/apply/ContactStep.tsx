@@ -25,7 +25,7 @@ export default function ContactStep() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <FormField label="Company" required error={errors.companyName?.message} className="sm:col-span-2">
-          <Input {...register("companyName")} error={errors.companyName?.message} placeholder="e.g. Denver Hearing & Balance Care" />
+          <Input {...register("companyName")} error={errors.companyName?.message} placeholder="e.g. Denver Rehab & Therapy Care" />
         </FormField>
 
         <FormField label="First Name" required error={errors.contactFirstName?.message}>
@@ -37,7 +37,7 @@ export default function ContactStep() {
         </FormField>
 
         <FormField label="Title / Role" hint="Optional">
-          <Input {...register("contactTitle")} placeholder="e.g. Owner, Au.D., Office Manager" />
+          <Input {...register("contactTitle")} placeholder="e.g. Owner, OTR/L, Office Manager" />
         </FormField>
 
         <FormField label="Email Address" required error={errors.email?.message}>

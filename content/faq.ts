@@ -52,7 +52,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Can I cancel?",
     answer:
-      "Listings are annual. Once your listing is confirmed, the fee is non-refundable for the current term. You may cancel auto-renewal at any time before the next annual cycle.",
+      "Listings are annual with no recurring charges — you pay once for a 12-month term. Once your listing is confirmed, the fee is non-refundable for the current term. If you'd like to continue for another term, you'll need to re-apply or renew before your listing expires.",
   },
 ];
 
