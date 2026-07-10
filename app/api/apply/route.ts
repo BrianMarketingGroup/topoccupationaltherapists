@@ -4,6 +4,7 @@ import { sendLeadEmail, sendContactEmail, type UploadsPayload } from "@/lib/emai
 import { sendApplyToBff, sendContactToBff } from "@/lib/bff";
 import { appendLeadToSheet, appendContactToSheet } from "@/lib/sheets";
 import { clearCache as clearAvailabilityCache } from "@/lib/availabilityCache";
+import { getTakenCities, featuredCityKey } from "@/lib/availability";
 
 const rateMap = new Map<string, { count: number; reset: number }>();
 
@@ -74,6 +75,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 422 });
   }
   if (parsed.data._honeypot) return NextResponse.json({ ok: true });
+
+  // Re-check Featured availability against fresh data (bypassing the 60s cache)
+  // right before accepting the submission. The client's takenSet is fetched once
+  // when the form opens, so another applicant may have claimed the same city's
+  // single Featured slot in the meantime — reject rather than double-selling it.
+  if (parsed.data.featuredLocations.length > 0) {
+    const taken = await getTakenCities({ fresh: true });
+    const takenKeys = new Set(taken.map((t) => featuredCityKey(t.city, t.state)));
+    const conflicts = parsed.data.featuredLocations.filter((key) => {
+      const [city, state] = key.split("|");
+      return takenKeys.has(featuredCityKey(city ?? "", state ?? ""));
+    });
+    if (conflicts.length > 0) {
+      return NextResponse.json(
+        {
+          error: `The Featured spot for ${conflicts.map((k) => k.replace("|", ", ")).join("; ")} was just claimed by another applicant. Please go back and remove it or choose a different city.`,
+          featuredConflicts: conflicts,
+        },
+        { status: 409 },
+      );
+    }
+  }
+
   // `uploads` (logo/photo/banner) travel alongside the validated form fields —
   // they're not part of applySchema (see lib/schema.ts), just passthrough data
   // for the lead email's attachments.

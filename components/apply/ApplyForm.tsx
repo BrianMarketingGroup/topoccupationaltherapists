@@ -164,6 +164,24 @@ export default function ApplyForm() {
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         setServerError(body.error ?? "Something went wrong. Please try again.");
+        if (res.status === 409 && Array.isArray(body.featuredConflicts)) {
+          // A Featured slot the applicant selected was just claimed by someone
+          // else — refresh the taken-cities list and send them back to fix it.
+          try {
+            const availRes = await fetch("/api/cities/availability");
+            const availData = await availRes.json();
+            const taken: { city: string; state: string }[] = availData.taken ?? [];
+            setTakenSet(taken.map((t) => normKey(t.city, t.state)));
+          } catch {
+            // Fail open — the conflict list in the error still lets the user retry.
+          }
+          setValue(
+            "featuredLocations",
+            data.featuredLocations.filter((k) => !body.featuredConflicts.includes(k)),
+          );
+          setStep(1);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
         return;
       }
       router.push(data.completeLater ? "/apply/thanks?path=later" : "/apply/thanks");
