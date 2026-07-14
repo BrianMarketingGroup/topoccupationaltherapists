@@ -29,6 +29,21 @@
   --color-foreground: #211c17;
   --color-muted: #7a6f61;
   --color-border: #e6dccb;
+
+  /* Checkout wizard aliases (components/checkout/**) — map the wizard's
+     generic token names onto this site's own navy/teal/gold tokens rather
+     than duplicating a second color system. */
+  --color-primary: var(--color-navy);
+  --color-primary-light: var(--color-navy-light);
+  --color-primary-dark: var(--color-navy-dark);
+  --color-accent: var(--color-teal);
+  --color-accent-light: var(--color-teal-light);
+  --color-accent-dark: #a5573f;
+  --color-bg: var(--color-background);
+  --color-card: #ffffff;
+  --color-dark: var(--color-foreground);
+  --color-success: #1f8a54;
+  --color-danger: #c0392b;
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }

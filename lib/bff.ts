@@ -77,7 +77,9 @@ export async function sendApplyToBff(
     business_zip: businessZip,
     about_bio: data.aboutBio ?? "",
     business_hours: (data.businessHours ?? []).map((h) => ({ day: h.day, closed: h.closed, hours: h.hours ?? "" })),
-    asset_permission: data.assetPermission,
+    // BFF expects a string here (matches every other site's convention) —
+    // this site's own applySchema stores it as a boolean.
+    asset_permission: data.assetPermission ? "Granted" : "Contact us",
   };
 
   const res = await fetch(`${base.replace(/\/+$/, "")}/api/v1/deals`, {
